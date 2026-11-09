@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>聖誕暖心陪伴 – 預防自殺與情緒支援熱線義工小遊戲</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            background: linear-gradient(180deg, #0f172a 0%, #1e1b4b 50%, #31103f 100%);
+            min-height: 100vh;
+            color: #f8fafc;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.6);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e11d48;
+            border-radius: 4px;
+        }
+
+        /* Snowflake Animation */
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: white;
+            user-select: none;
+            z-index: 0;
+            pointer-events: none;
+            animation-name: fall;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0vh) rotate(0deg); opacity: 0.8; }
+            100% { transform: translateY(105vh) rotate(360deg); opacity: 0.15; }
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(0vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(105vh) rotate(360deg); opacity: 0.2; }
+        }
+
+        /* Liquid Steam Effect */
+        @keyframes steam {
+            0% { transform: translateY(0) scaleX(1); opacity: 0; }
+            50% { opacity: 0.6; }
+            100% { transform: translateY(-30px) scaleX(1.5); opacity: 0; }
+        }
+        .steam-particle {
+            animation: steam 3s infinite ease-in-out;
+        }
+        
+        /* Town Light pulse */
+        .lit {
+            filter: drop-shadow(0 0 15px #fef08a);
+        }
+
+        /* Town Scenery Background Styles */
+        .town-scenery-bg {
+            background: linear-gradient(180deg, #0b132b 0%, #1c2541 60%, #2e1065 100%);
+            position: relative;
+        }
+
+        .town-silhouette {
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(254, 240, 138, 0.15) 0%, transparent 20%),
+                radial-gradient(circle at 80% 70%, rgba(254, 240, 138, 0.15) 0%, transparent 25%),
+                linear-gradient(to top, #0f172a 0%, transparent 100%);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+    </style>
+</head>
+<body class="relative overflow-x-hidden pb-12">
+
+    <!-- Falling Snow Container -->
+    <div id="snow-container"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-md border-b border-rose-900/40 px-4 py-3 shadow-lg">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3 cursor-pointer" onclick="showSection('home')">
+                <span class="text-2xl">🎄</span>
+                <div>
+                    <h1 class="font-bold text-lg text-rose-300 leading-tight">熱線義工聖誕暖心閣</h1>
+                    <p class="text-xs text-amber-200/80">情緒陪伴 ‧ 聖誕暖心心靈小屋</p>
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="flex items-center gap-2">
+                <button onclick="toggleBgmSound()" id="sound-btn" class="p-2 px-3 rounded-full bg-slate-800 hover:bg-slate-700 text-amber-300 border border-amber-500/30 transition text-sm flex items-center gap-2">
+                    <i id="sound-icon" class="fa-solid fa-volume-xmark text-slate-400"></i>
+                    <span class="hidden sm:inline">背景音樂</span>
+                </button>
+                <button onclick="showSection('home')" class="p-2 px-3 rounded-xl bg-rose-900/50 hover:bg-rose-800/60 text-rose-100 border border-rose-500/30 transition text-sm">
+                    <i class="fa-solid fa-house mr-1"></i> 主頁
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main class="max-w-4xl mx-auto px-4 mt-6">
+
+        <!-- ================= HOME SECTION ================= -->
+        <section id="sec-home" class="space-y-8">
+            <!-- Banner Header -->
+            <div class="text-center bg-gradient-to-br from-rose-950/80 via-slate-900/90 to-purple-950/80 p-8 rounded-3xl border border-rose-500/30 shadow-2xl relative overflow-hidden">
+                <div class="absolute -right-6 -top-6 text-8xl opacity-10">🎁</div>
+                <div class="inline-block px-4 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/40 rounded-full text-xs font-bold mb-4">
+                    🎄 聖誕節快樂！願平安與溫暖與您同在 ✨
+                </div>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-3">
+                    辛苦了！熱線背後的溫暖守護者 ❤️
+                </h2>
+                <p class="text-slate-300 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+                    聖誕佳節期間，謝謝您一直在電話旁細心聆聽每一個求助者的心聲。<br>
+                    在這個溫馨的節日，我們特別準備了 3 個情緒暖心小遊戲，讓您在放鬆之餘，也能感受團隊互相陪伴的能量！
+                </p>
+            </div>
+
+            <!-- 3 Game Selection Cards -->
+            <div class="grid md:grid-cols-3 gap-6">
+
+                <!-- Mode 1 Card -->
+                <div onclick="showSection('mode1')" class="bg-slate-800/80 hover:bg-slate-800 border border-amber-500/30 hover:border-amber-400/70 p-6 rounded-2xl cursor-pointer transition transform hover:-translate-y-1 shadow-lg group flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 bg-amber-500/20 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition">
+                            ☕
+                        </div>
+                        <span class="text-xs font-bold text-amber-400 bg-amber-400/10 px-2.5 py-1 rounded-full">遊戲一</span>
+                        <h3 class="text-xl font-bold text-white mt-2 mb-2">聖誕暖心特調瓶</h3>
+                        <p class="text-slate-300 text-xs leading-relaxed">
+                            調配專屬於您此刻心境的「聖誕熱可可」，點選目前的情緒配料，獲得專屬的歲末Self-Care暖心卡片。
+                        </p>
+                    </div>
+                    <div class="mt-6 flex justify-between items-center text-amber-300 font-bold text-sm">
+                        <span>開始調配</span>
+                        <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                    </div>
+                </div>
+
+                <!-- Mode 2 Card -->
+                <div onclick="showSection('mode2')" class="bg-slate-800/80 hover:bg-slate-800 border border-rose-500/30 hover:border-rose-400/70 p-6 rounded-2xl cursor-pointer transition transform hover:-translate-y-1 shadow-lg group flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 bg-rose-500/20 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition">
+                            🎁
+                        </div>
+                        <span class="text-xs font-bold text-rose-400 bg-rose-400/10 px-2.5 py-1 rounded-full">遊戲二</span>
+                        <h3 class="text-xl font-bold text-white mt-2 mb-2">聖誕情緒禮物盒</h3>
+                        <p class="text-slate-300 text-xs leading-relaxed">
+                            拆開 3 個節慶對話禮物盒，練習精準辨識情緒與選擇最溫暖的同理心回應，通關即可解鎖「愛心禮物」。
+                        </p>
+                    </div>
+                    <div class="mt-6 flex justify-between items-center text-rose-300 font-bold text-sm">
+                        <span>拆開禮物</span>
+                        <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                    </div>
+                </div>
+
+                <!-- Mode 3 Card -->
+                <div onclick="showSection('mode3')" class="bg-slate-800/80 hover:bg-slate-800 border border-indigo-500/30 hover:border-indigo-400/70 p-6 rounded-2xl cursor-pointer transition transform hover:-translate-y-1 shadow-lg group flex flex-col justify-between">
+                    <div>
+                        <div class="w-14 h-14 bg-indigo-500/20 rounded-2xl flex items-center justify-center text-3xl mb-4 group-hover:scale-110 transition">
+                            🕯️
+                        </div>
+                        <span class="text-xs font-bold text-indigo-400 bg-indigo-400/10 px-2.5 py-1 rounded-full">遊戲三</span>
+                        <h3 class="text-xl font-bold text-white mt-2 mb-2">點亮聖誕夜小鎮</h3>
+                        <p class="text-slate-300 text-xs leading-relaxed">
+                            點亮熱線中心各個場所的燈火！留下對夥伴或自己的溫柔祝福，一同守護聖誕夜的溫暖光芒。
+                        </p>
+                    </div>
+                    <div class="mt-6 flex justify-between items-center text-indigo-300 font-bold text-sm">
+                        <span>點亮小鎮</span>
+                        <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition"></i>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Wall CTA Card -->
+            <div onclick="showSection('wall')" class="bg-gradient-to-r from-purple-900/40 via-slate-800 to-rose-900/40 border border-purple-500/30 p-6 rounded-2xl cursor-pointer hover:border-purple-400 transition flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="text-4xl">💬</div>
+                    <div>
+                        <h4 class="font-bold text-lg text-white">熱線義工暖心留言牆</h4>
+                        <p class="text-slate-300 text-xs">看看其他義工夥伴完成遊戲後留下的祝福與勉勵！</p>
+                    </div>
+                </div>
+                <span class="bg-purple-600/50 hover:bg-purple-600 text-white px-5 py-2.5 rounded-xl text-sm font-bold border border-purple-400/30 whitespace-nowrap">
+                    前往留言牆 <i class="fa-solid fa-comments ml-1"></i>
+                </span>
+            </div>
+        </section>
+
+
+        <!-- ================= GAME 1: 聖誕暖心特調瓶 ================= -->
+        <section id="sec-mode1" class="hidden space-y-6">
+            <div class="flex items-center justify-between border-b border-amber-500/20 pb-4">
+                <div>
+                    <span class="text-xs text-amber-400 font-bold uppercase tracking-wider">GAME 01</span>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        ☕ 聖誕暖心特調瓶
+                    </h2>
+                </div>
+                <button onclick="showSection('home')" class="text-xs bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg hover:bg-slate-700">
+                    <i class="fa-solid fa-xmark mr-1"></i> 返回主頁
+                </button>
+            </div>
+
+            <p class="text-slate-300 text-sm">
+                一年來陪伴了許許多多的求助者，您現在的心情與狀態如何呢？請選擇您的「情緒狀態」與「暖心配料」，為自己調配一杯獨一無二的「聖誕心境熱可可/暖心瓶」吧！
+            </p>
+
+            <div class="grid md:grid-cols-2 gap-8 items-center bg-slate-900/60 p-6 rounded-3xl border border-amber-500/20">
+
+                <!-- Left: Interactive Hot Chocolate Cup Canvas -->
+                <div class="flex flex-col items-center justify-center relative min-h-[280px] bg-slate-950/50 rounded-2xl p-6 border border-slate-800">
+                    
+                    <!-- Steam Particles -->
+                    <div class="flex gap-4 mb-2">
+                        <span class="steam-particle text-slate-400 text-xl">☁️</span>
+                        <span class="steam-particle text-slate-400 text-2xl" style="animation-delay: 1s;">✨</span>
+                        <span class="steam-particle text-slate-400 text-xl" style="animation-delay: 2s;">☁️</span>
+                    </div>
+
+                    <!-- Cup Visual -->
+                    <div id="cocoa-mug" class="w-44 h-48 bg-gradient-to-b from-amber-900 via-amber-950 to-slate-900 rounded-b-3xl rounded-t-lg border-4 border-amber-600/40 relative shadow-2xl flex flex-col items-center justify-end p-3 overflow-hidden">
+                        <div class="absolute inset-x-0 top-0 h-8 bg-amber-800/80 rounded-full flex items-center justify-center border-b border-amber-700">
+                            <span class="text-xs text-amber-200/60 font-bold">Warm Cocoa Bottle</span>
+                        </div>
+                        
+                        <!-- Selected Ingredients Stack Display -->
+                        <div id="ingredient-stack" class="w-full flex flex-col-reverse gap-1.5 mb-2 z-10 max-h-[120px] overflow-y-auto">
+                            <!-- Items dynamically added here -->
+                        </div>
+                    </div>
+
+                    <p class="text-xs text-amber-200/70 mt-4 text-center" id="brew-status">
+                        請點擊右側選單加入配料 (最少選擇 1 項)
+                    </p>
+                </div>
+
+                <!-- Right: Emotional & Warmth Ingredient Selection -->
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <span class="text-amber-300 font-bold text-xs">選擇成分與配料 (可自由搭配)</span>
+                        <span class="text-[10px] text-slate-400">點擊圖示即可加入特調瓶</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 max-h-[240px] overflow-y-auto pr-1" id="ingredient-options">
+                        <!-- Options generated dynamically -->
+                    </div>
+
+                    <div class="pt-2 flex gap-3">
+                        <button onclick="resetMode1()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 py-2.5 rounded-xl text-sm font-bold border border-slate-700">
+                            重置特調瓶
+                        </button>
+                        <button onclick="generateCocoaCard()" class="flex-1 bg-amber-500 hover:bg-amber-400 text-slate-950 py-2.5 rounded-xl text-sm font-bold shadow-lg transition">
+                            調製完成，生成卡片 ✨
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Generated Card Modal -->
+            <div id="card-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+                <div class="bg-gradient-to-br from-slate-900 via-amber-950 to-slate-900 border-2 border-amber-500/60 p-6 rounded-3xl max-w-md w-full shadow-2xl text-center space-y-4 relative">
+                    <button onclick="closeModal('card-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+
+                    <div class="text-4xl">🎄☕✨</div>
+                    <h3 class="text-2xl font-bold text-amber-300">您的聖誕暖心特調瓶</h3>
+
+                    <div id="card-content" class="bg-slate-900/80 p-4 rounded-2xl border border-amber-500/20 text-left space-y-2 text-sm text-slate-200">
+                        <!-- Dynamic generated text based on combinations -->
+                    </div>
+
+                    <div class="flex gap-3 pt-2">
+                        <button onclick="closeModal('card-modal')" class="flex-1 bg-slate-800 text-slate-300 py-2 rounded-xl text-sm">
+                            再次調配
+                        </button>
+                        <button onclick="closeModal('card-modal'); showSection('mode2')" class="flex-1 bg-rose-600 hover:bg-rose-500 text-white font-bold py-2 rounded-xl text-sm">
+                            下一關：情緒禮物盒 <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= GAME 2: 聖誕情緒禮物盒 ================= -->
+        <section id="sec-mode2" class="hidden space-y-6">
+            <div class="flex items-center justify-between border-b border-rose-500/20 pb-4">
+                <div>
+                    <span class="text-xs text-rose-400 font-bold uppercase tracking-wider">GAME 02</span>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        🎁 聖誕情緒禮物盒
+                    </h2>
+                </div>
+                <button onclick="showSection('home')" class="text-xs bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg hover:bg-slate-700">
+                    <i class="fa-solid fa-xmark mr-1"></i> 返回主頁
+                </button>
+            </div>
+
+            <p class="text-slate-300 text-sm">
+                請點擊拆開聖誕禮物盒！每個禮物盒裝著求助者的節慶心聲，請協助選出最貼切的「情緒標籤」與「同理陪伴回應」。
+            </p>
+
+            <!-- Gift Selection Progress Bar -->
+            <div class="flex items-center justify-between bg-slate-900/60 p-4 rounded-2xl border border-rose-500/20">
+                <span class="text-sm text-rose-300 font-bold">進度：</span>
+                <div class="flex gap-3" id="gift-progress-tokens">
+                    <span id="token-0" class="px-3 py-1 bg-slate-800 border border-slate-700 text-slate-400 rounded-lg text-xs font-bold">禮物 A</span>
+                    <span id="token-1" class="px-3 py-1 bg-slate-800 border border-slate-700 text-slate-400 rounded-lg text-xs font-bold">禮物 B</span>
+                    <span id="token-2" class="px-3 py-1 bg-slate-800 border border-slate-700 text-slate-400 rounded-lg text-xs font-bold">禮物 C</span>
+                </div>
+            </div>
+
+            <!-- Current Active Scenario Stage -->
+            <div id="mode2-active-box" class="bg-slate-900/80 p-6 rounded-3xl border border-rose-500/30 space-y-6 shadow-xl">
+                <!-- Dynamically Populated Case Content -->
+            </div>
+
+            <!-- Center's Love Gift Success Modal -->
+            <div id="center-gift-modal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+                <div class="bg-gradient-to-br from-slate-900 via-rose-950 to-slate-900 border-2 border-rose-500/80 p-6 rounded-3xl max-w-lg w-full shadow-2xl text-center space-y-5 relative">
+                    <div class="text-5xl animate-bounce">🎄🎁❤️</div>
+                    <h3 class="text-2xl font-bold text-rose-300">熱線中心的聖誕愛心禮物</h3>
+                    
+                    <p class="text-xs sm:text-sm text-slate-300">
+                        恭喜您完成了 3 個情緒禮物盒的解密！熱線中心將您這份細緻的同理心與溫暖，轉化為專屬的聖誕愛心禮物：
+                    </p>
+
+                    <!-- Christmas Tree & Gift Box Display -->
+                    <div class="bg-slate-950/70 p-4 rounded-2xl border border-rose-500/30 space-y-3">
+                        <div class="text-4xl">🎄</div>
+                        <div class="text-xs text-amber-300 font-bold">聖誕樹下滿滿的陪伴錦囊：</div>
+                        
+                        <div class="grid grid-cols-1 gap-2 text-xs text-left text-slate-200" id="unlocked-gifts-summary">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                        <button onclick="closeModal('center-gift-modal'); showSection('home')" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 py-2.5 rounded-xl text-sm font-bold border border-slate-700">
+                            返回主選單
+                        </button>
+                        <button onclick="closeModal('center-gift-modal'); showSection('mode3')" class="flex-1 bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white font-bold py-2.5 rounded-xl text-sm shadow-lg">
+                            前往關卡 3：點亮小鎮 <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= GAME 3: 點亮聖誕夜小鎮 ================= -->
+        <section id="sec-mode3" class="hidden space-y-6">
+            <div class="flex items-center justify-between border-b border-indigo-500/20 pb-4">
+                <div>
+                    <span class="text-xs text-indigo-400 font-bold uppercase tracking-wider">GAME 03</span>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        🕯️ 點亮聖誕夜小鎮
+                    </h2>
+                </div>
+                <button onclick="showSection('home')" class="text-xs bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg hover:bg-slate-700">
+                    <i class="fa-solid fa-xmark mr-1"></i> 返回主頁
+                </button>
+            </div>
+
+            <p class="text-slate-300 text-sm">
+                請點擊熱線中心各個房間與聖誕燈飾！輸入一句給夥伴或自己的鼓勵，點亮屬於你們的雪夜燈火。
+            </p>
+
+            <!-- Town Interactive Grid with Enhanced Christmas Village Background -->
+            <div class="town-scenery-bg p-6 pt-10 pb-12 rounded-3xl border border-indigo-500/40 relative overflow-hidden shadow-2xl">
+                
+                <!-- Village Silhouette Background Decor -->
+                <div class="absolute inset-x-0 bottom-0 h-32 pointer-events-none select-none overflow-hidden opacity-30">
+                    <svg class="w-full h-full text-slate-900" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                        <!-- Houses & Trees Silhouettes -->
+                        <path d="M0,120 L0,90 L30,70 L60,90 L90,60 L120,90 L160,50 L200,90 L240,80 L280,100 L320,60 L360,90 L420,40 L480,90 L520,70 L560,90 L620,50 L680,90 L740,65 L800,90 L850,55 L900,90 L960,45 L1020,90 L1080,70 L1140,90 L1200,80 L1200,120 Z" fill="currentColor"></path>
+                    </svg>
+                </div>
+
+                <!-- All Lit Celebration Element (Christmas Tree & Santa Claus) -->
+                <div id="town-all-lit-banner" class="hidden absolute inset-0 z-20 bg-slate-950/85 backdrop-blur-md p-6 flex flex-col items-center justify-center text-center animate-fade-in space-y-3">
+                    <div class="text-6xl animate-bounce">🎅✨🎄✨🛷</div>
+                    <h3 class="text-2xl font-extrabold text-amber-300 drop-shadow-md">聖誕小鎮全鎮點亮！</h3>
+                    <p class="text-xs sm:text-sm text-slate-200 max-w-md leading-relaxed">
+                        太棒了！聖誕老人駕著雪橇飛越夜空，點亮了巨大的中央聖誕樹！感謝您用溫暖的話語點亮了整個熱線小鎮。
+                    </p>
+                    <div class="pt-2 flex flex-col sm:flex-row gap-3">
+                        <button onclick="closeTownCelebration()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 px-4 py-2 rounded-xl text-xs font-bold border border-slate-700">
+                            觀賞璀璨小鎮 🌌
+                        </button>
+                        <button onclick="closeTownCelebration(); showSection('wall')" class="bg-gradient-to-r from-purple-600 to-rose-600 hover:from-purple-500 hover:to-rose-500 text-white px-5 py-2.5 rounded-xl text-xs font-bold shadow-lg flex items-center justify-center gap-1.5">
+                            前往留言牆留下祝福 💌 <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Snow Layer Base Ground -->
+                <div class="absolute inset-x-0 bottom-0 h-4 bg-gradient-to-t from-slate-200/20 to-transparent rounded-b-3xl pointer-events-none"></div>
+
+                <!-- Christmas Background Decorative Floating Elements -->
+                <div class="absolute top-3 left-6 text-xl opacity-40 pointer-events-none select-none">🌙</div>
+                <div class="absolute top-4 right-8 text-2xl opacity-30 pointer-events-none select-none animate-pulse">✨</div>
+                <div class="absolute top-12 left-1/3 text-sm opacity-20 pointer-events-none select-none">☁️</div>
+
+                <!-- Buildings Container Grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-5 relative z-10" id="town-buildings-grid">
+                    <!-- Dynamic Buildings Populated Here -->
+                </div>
+            </div>
+
+            <!-- Light Up Modal -->
+            <div id="light-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+                <div class="bg-slate-900 border-2 border-indigo-500/60 p-6 rounded-3xl max-w-md w-full shadow-2xl space-y-4 relative">
+                    <button onclick="closeModal('light-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+
+                    <div class="flex items-center gap-3">
+                        <span class="text-3xl" id="modal-building-icon">🏠</span>
+                        <div>
+                            <h3 class="font-bold text-lg text-indigo-300" id="modal-building-name">點亮活動室</h3>
+                            <p class="text-xs text-slate-400">寫下一句暖心話語以點亮燈火</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label class="text-xs text-slate-300 font-bold">快速選擇溫馨金句：</label>
+                        <div class="flex flex-wrap gap-1.5" id="preset-lights-container">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-xs text-slate-300 font-bold">或自訂留言：</label>
+                        <textarea id="custom-light-msg" rows="3" class="w-full mt-1 bg-slate-950 border border-slate-700 rounded-xl p-3 text-sm text-white focus:outline-none focus:border-indigo-500" placeholder="寫下給夥伴或自己的祝福..."></textarea>
+                    </div>
+
+                    <button onclick="confirmLightUp()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-2.5 rounded-xl text-sm shadow-lg">
+                        點亮這盞燈 🕯️
+                    </button>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ================= WALL: 暖心留言牆 ================= -->
+        <section id="sec-wall" class="hidden space-y-6">
+            <div class="flex items-center justify-between border-b border-purple-500/20 pb-4">
+                <div>
+                    <span class="text-xs text-purple-400 font-bold uppercase tracking-wider">VOLUNTEER WALL</span>
+                    <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                        💬 熱線義工暖心留言牆
+                    </h2>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="toggleAdminPanel()" id="admin-mode-btn" class="text-xs bg-purple-900/40 text-purple-300 border border-purple-500/40 px-3 py-1.5 rounded-lg hover:bg-purple-800/60 transition">
+                        <i class="fa-solid fa-shield-halved mr-1"></i> 管理員登入
+                    </button>
+                    <button onclick="showSection('home')" class="text-xs bg-slate-800 text-slate-300 px-3 py-1.5 rounded-lg hover:bg-slate-700">
+                        <i class="fa-solid fa-xmark mr-1"></i> 返回主頁
+                    </button>
+                </div>
+            </div>
+
+            <!-- Admin Password Input Drawer (Hidden by default) -->
+            <div id="admin-login-drawer" class="hidden bg-slate-900 border border-purple-500/40 p-4 rounded-2xl space-y-3 animate-fade-in">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs text-purple-300 font-bold"><i class="fa-solid fa-key mr-1"></i> 請輸入管理員密碼</span>
+                    <button onclick="toggleAdminPanel()" class="text-xs text-slate-400 hover:text-white"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="flex gap-2">
+                    <input type="password" id="admin-pwd-input" placeholder="輸入管理員密碼..." class="flex-1 bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-purple-500">
+                    <button onclick="verifyAdminPassword()" class="bg-purple-600 hover:bg-purple-500 text-white text-xs px-4 py-2 rounded-xl font-bold transition">
+                        登入
+                    </button>
+                </div>
+            </div>
+
+            <!-- Admin Control Bar (Hidden by default) -->
+            <div id="admin-controls-bar" class="hidden bg-purple-950/60 border border-purple-500/40 p-4 rounded-2xl flex items-center justify-between animate-fade-in">
+                <div class="flex items-center gap-2 text-xs text-purple-200">
+                    <i class="fa-solid fa-circle-check text-emerald-400"></i>
+                    <span>已啟用管理員模式（您可以直接刪除牆上的任何留言）</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="logoutAdmin()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs px-3 py-1.5 rounded-lg border border-slate-700 transition">
+                        登出管理員
+                    </button>
+                    <button onclick="clearAllMessages()" class="bg-rose-900/60 hover:bg-rose-800 text-rose-200 text-xs px-3 py-1.5 rounded-lg border border-rose-500/40 transition">
+                        <i class="fa-solid fa-trash-can mr-1"></i> 清空所有留言
+                    </button>
+                </div>
+            </div>
+
+            <!-- Leave Message Box -->
+            <div class="bg-slate-900/80 p-5 rounded-3xl border border-purple-500/30 space-y-3">
+                <h3 class="text-sm font-bold text-purple-300 flex items-center gap-2">
+                    <i class="fa-solid fa-pen"></i> 留下您的聖誕感言或對熱線夥伴的鼓勵：
+                </h3>
+                <div class="flex gap-2">
+                    <input type="text" id="wall-author-input" placeholder="您的暱稱 (例: 104號義工)" class="w-1/3 bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-purple-500">
+                    <input type="text" id="wall-msg-input" placeholder="寫下暖心留言..." class="w-2/3 bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-purple-500">
+                </div>
+                <button onclick="postWallMessage()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-2 rounded-xl text-sm transition">
+                    發布至留言牆 💌
+                </button>
+            </div>
+
+            <!-- Messages Grid -->
+            <div class="grid sm:grid-cols-2 gap-4" id="wall-cards-grid">
+                <!-- Dynamically populated -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Page Footer -->
+    <footer class="mt-12 text-center border-t border-slate-800/80 pt-6 pb-4">
+        <div class="inline-block px-4 py-1.5 bg-amber-500/10 text-amber-300 border border-amber-500/30 rounded-full text-xs font-bold shadow-sm">
+            ✨ 特別為預防自殺熱線義工設計 ✨
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Global Navigation Control
+        function showSection(sectionId) {
+            const sections = ['home', 'mode1', 'mode2', 'mode3', 'wall'];
+            sections.forEach(id => {
+                const el = document.getElementById('sec-' + id);
+                if (el) {
+                    if (id === sectionId) {
+                        el.classList.remove('hidden');
+                    } else {
+                        el.classList.add('hidden');
+                    }
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function closeModal(modalId) {
+            const el = document.getElementById(modalId);
+            if (el) el.classList.add('hidden');
+        }
+
+        // Snow animation
+        function initSnowEffect() {
+            const container = document.getElementById('snow-container');
+            if (!container) return;
+            const flakesCount = 28;
+            for (let i = 0; i < flakesCount; i++) {
+                const flake = document.createElement('div');
+                flake.className = 'snowflake';
+                flake.innerHTML = '❄';
+                flake.style.left = Math.random() * 100 + 'vw';
+                flake.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                flake.style.animationDelay = (Math.random() * 5) + 's';
+                flake.style.fontSize = (Math.random() * 12 + 10) + 'px';
+                flake.style.opacity = Math.random() * 0.7 + 0.3;
+                container.appendChild(flake);
+            }
+        }
+
+        // Audio Setup & Web Audio API Fallback Synthesizer
+        let audioCtx = null;
+        let isPlayingAudio = false;
+        let audioElem = null;
+        let synthInterval = null;
+
+        function initAudio() {
+            if (!audioElem) {
+                // Royalty-free gentle Christmas piano music
+                audioElem = new Audio('https://cdn.pixabay.com/download/audio/2023/11/24/audio_345eb6d2bc.mp3?filename=silent-night-piano-version-176848.mp3');
+                audioElem.loop = true;
+                audioElem.volume = 0.4;
+            }
+        }
+
+        function playSynthesizedChristmasMusic() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+
+            // Silent Night melody notes
+            const melody = [
+                { f: 392.00, d: 0.75 }, { f: 440.00, d: 0.25 }, { f: 392.00, d: 0.5 }, { f: 329.63, d: 1.0 },
+                { f: 392.00, d: 0.75 }, { f: 440.00, d: 0.25 }, { f: 392.00, d: 0.5 }, { f: 329.63, d: 1.0 },
+                { f: 587.33, d: 0.75 }, { f: 587.33, d: 0.5 },  { f: 493.88, d: 1.0 },
+                { f: 523.25, d: 0.75 }, { f: 523.25, d: 0.5 },  { f: 392.00, d: 1.0 }
+            ];
+
+            let noteIdx = 0;
+            synthInterval = setInterval(() => {
+                if (!isPlayingAudio) return;
+                const note = melody[noteIdx];
+                playMusicBoxNote(note.f, note.d * 1.3);
+                noteIdx = (noteIdx + 1) % melody.length;
+            }, 650);
+        }
+
+        function playMusicBoxNote(freq, duration) {
+            if (!audioCtx || audioCtx.state !== 'running') return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+
+            osc.type = 'sine'; 
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime); 
+
+            gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        }
+
+        function stopSynthesizedMusic() {
+            if (synthInterval) {
+                clearInterval(synthInterval);
+                synthInterval = null;
+            }
+        }
+
+        function toggleBgmSound() {
+            initAudio();
+            const icon = document.getElementById('sound-icon');
+
+            if (!isPlayingAudio) {
+                const playPromise = audioElem.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        isPlayingAudio = true;
+                        if (icon) icon.className = "fa-solid fa-volume-high text-amber-300 animate-pulse";
+                    }).catch(err => {
+                        isPlayingAudio = true;
+                        playSynthesizedChristmasMusic();
+                        if (icon) icon.className = "fa-solid fa-volume-high text-amber-300 animate-pulse";
+                    });
+                }
+            } else {
+                isPlayingAudio = false;
+                if (audioElem) audioElem.pause();
+                stopSynthesizedMusic();
+                if (icon) icon.className = "fa-solid fa-volume-xmark text-slate-400";
+            }
+        }
+
+        // --- GAME 1: 聖誕暖心特調瓶 ---
+        const mode1Emotions = [
+            { id: 'anxiety', label: '焦慮薑餅 🍪', category: 'emo', desc: '值勤接聽高壓個案後的緊繃', color: 'bg-amber-700', quote: '緊繃的焦慮感辛苦您了。在這特別的聖誕夜裡，允許自己深呼吸，把負擔暫時卸下。' },
+            { id: 'fatigue', label: '疲憊雪花 ❄️', category: 'emo', desc: '歲末年終的體力與心力消耗', color: 'bg-blue-600', quote: '傾聽了許多靈魂的聲音後，您的身心也辛苦了。今晚請允許自己完全放空，好好歇息。' },
+            { id: 'loneliness', label: '孤單夜空 🌌', category: 'emo', desc: '節慶氛圍下的微小孤獨感', color: 'bg-indigo-700', quote: '即使獨處在安靜的角落，請記得熱線團隊的關懷隨時與您同在，您並不孤單。' },
+            { id: 'empathy', label: '同理甜味 🍥', category: 'emo', desc: '給予求助者滿滿溫暖的溫柔', color: 'bg-rose-500', quote: '您所給予求助者的每一句同理與陪伴，都是世界上最美麗、最無價的聖誕禮物。' },
+            { id: 'hope', label: '期待聖誕樹 🎄', category: 'emo', desc: '對新一年服務與生活的盼望', color: 'bg-emerald-600', quote: '攜帶著心中的希望與信念，新的一年我們繼續一起攜手，守護更多美好的微光。' },
+            { id: 'gratitude', label: '感恩微光星 🌟', category: 'emo', desc: '感謝團隊夥伴一路相互支持', color: 'bg-yellow-500', quote: '感謝有您一路同行！因為有您的付出，這座城市的冬夜變得更加溫暖與光明。' }
+        ];
+
+        const mode1Toppings = [
+            { id: 'milk', label: '濃郁熱牛奶 🥛', category: 'topping', desc: '包容所有情緒的溫柔基底', color: 'bg-amber-100 text-amber-950', quote: '加入的濃郁熱牛奶，帶來了無窮的包容與平靜，滋養您疲憊的心。' },
+            { id: 'marshmallow', label: '雲朵棉花糖 ☁️', category: 'topping', desc: '軟化沉重心情的蓬鬆甜蜜', color: 'bg-pink-300 text-pink-950', quote: '蓬鬆的雲朵棉花糖化開了所有的沉重，為您換上一份蓬鬆愉悅的好心情。' },
+            { id: 'cinnamon', label: '暖心肉桂棒 🪵', category: 'topping', desc: '提供穩定力量的節慶香氣', color: 'bg-amber-900', quote: '肉桂的節慶香氣飄散開來，為您注入一份穩定、堅定而持續的內在力量。' },
+            { id: 'sparkles', label: '微光金糖粒 ✨', category: 'topping', desc: '點亮暗夜的小小微光獎勵', color: 'bg-yellow-400 text-yellow-950', quote: '金光閃爍的微光糖粒提醒著您：陪伴別人的同時，您本身也是極其閃耀的存在！' }
+        ];
+
+        let selectedMode1Items = [];
+
+        function initMode1UI() {
+            renderMode1Options();
+        }
+
+        function renderMode1Options() {
+            const container = document.getElementById('ingredient-options');
+            if (!container) return;
+            container.innerHTML = '';
+            
+            const allItems = [...mode1Emotions, ...mode1Toppings];
+
+            allItems.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.className = `p-2.5 rounded-xl border border-slate-700 bg-slate-800/80 hover:bg-slate-700 text-left transition flex flex-col justify-between`;
+                btn.onclick = () => addIngredient(opt);
+                btn.innerHTML = `
+                    <span class="font-bold text-xs text-white flex items-center justify-between">
+                        ${opt.label}
+                        <span class="text-[9px] ${opt.category === 'emo' ? 'text-amber-400 bg-amber-400/10' : 'text-pink-300 bg-pink-400/10'} px-1.5 py-0.5 rounded">
+                            ${opt.category === 'emo' ? '心情' : '配料'}
+                        </span>
+                    </span>
+                    <span class="text-[10px] text-slate-400 mt-1">${opt.desc}</span>
+                `;
+                container.appendChild(btn);
+            });
+        }
+
+        function addIngredient(opt) {
+            if (selectedMode1Items.length >= 5) {
+                alert('特調瓶快要裝滿囉！');
+                return;
+            }
+            selectedMode1Items.push(opt);
+            renderMode1Stack();
+        }
+
+        function renderMode1Stack() {
+            const stack = document.getElementById('ingredient-stack');
+            const status = document.getElementById('brew-status');
+            if (!stack) return;
+            stack.innerHTML = '';
+
+            selectedMode1Items.forEach((item) => {
+                const el = document.createElement('div');
+                el.className = `${item.color} text-xs px-2.5 py-1 rounded-lg font-bold text-center shadow animate-fade-in`;
+                el.innerText = item.label;
+                stack.appendChild(el);
+            });
+
+            if (selectedMode1Items.length > 0) {
+                status.innerText = `已加入 ${selectedMode1Items.length} 種特調配料！`;
+            } else {
+                status.innerText = `請點擊選單加入配料 (最少選擇 1 項)`;
+            }
+        }
+
+        function resetMode1() {
+            selectedMode1Items = [];
+            renderMode1Stack();
+        }
+
+        const warmClosingQuotes = [
+            "「親愛的義工夥伴：溫暖別人的同時，也請別忘了溫柔地抱抱自己。」",
+            "「在這特別的聖誕夜裡，願您的心如熱可可般充滿滿滿的平安與溫馨。」",
+            "「謝謝您成為熱線另一端那道守護生命的微光，聖誕快樂！」",
+            "「願今晚的雪花與燈火，都化作對您最深沉的祝福與擁抱。」",
+            "「您的每一次聆聽都極具意義，今晚換我們來溫暖與陪伴您。」"
+        ];
+
+        function generateCocoaCard() {
+            if (selectedMode1Items.length === 0) {
+                alert('請先選擇至少一種心情標籤或暖心配料！');
+                return;
+            }
+
+            const cardContent = document.getElementById('card-content');
+            const modal = document.getElementById('card-modal');
+
+            const emos = selectedMode1Items.filter(i => i.category === 'emo');
+            const toppings = selectedMode1Items.filter(i => i.category === 'topping');
+
+            let labelsText = selectedMode1Items.map(i => i.label).join('、');
+            let dynamicMsg = "";
+
+            if (emos.length > 0) {
+                dynamicMsg += emos[0].quote + " ";
+                if (emos.length > 1) {
+                    dynamicMsg += emos[1].quote + " ";
+                }
+            } else {
+                dynamicMsg += "給親愛的您：即使沒有特定沉重的負擔，也值得享用一杯溫暖的心靈特調。 ";
+            }
+
+            if (toppings.length > 0) {
+                dynamicMsg += toppings[0].quote;
+            } else {
+                dynamicMsg += "這份簡約的調配，正如您純粹而真摯的同理之心。";
+            }
+
+            const randomClosing = warmClosingQuotes[Math.floor(Math.random() * warmClosingQuotes.length)];
+
+            cardContent.innerHTML = `
+                <p><strong>☕ 特調名稱：</strong>聖誕專屬心境熱可可</p>
+                <p><strong>✨ 調配成分：</strong>${labelsText}</p>
+                <hr class="border-slate-800 my-2">
+                <p class="text-xs leading-relaxed text-amber-100">
+                    ${dynamicMsg}
+                </p>
+                <div class="mt-3 text-xs text-amber-300 font-bold text-center italic border-t border-amber-500/20 pt-2">
+                    ${randomClosing}
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+        }
+
+        // --- GAME 2: 聖誕情緒禮物盒 ---
+        const mode2Cases = [
+            {
+                id: 'A',
+                giftIcon: '🎁',
+                title: '禮物盒 A：被忽視的寂寞',
+                story: '「聖誕節大家都在聚餐慶祝，街上好熱鬧……只有我一個人關在房間裡。我覺得自己好像被整個世界遺忘了，如果我不存在了，是不是也沒有人在乎？」',
+                emotions: [
+                    { id: 'correct', label: '寂寞、無價值感、渴望被連結', hint: '正確！完全精準辨識出求助者的孤獨與深深的無助感。' },
+                    { id: 'w1', label: '憤怒、不滿、嫉妒他人', hint: '雖然有一點羨慕他人，但核心情緒是深深的寂寞與孤獨感。' },
+                    { id: 'w2', label: '焦慮、擔心工作沒做好', hint: '求助者表達的是節慶時的寂寞感與存在感議題哦。' }
+                ],
+                responses: [
+                    { id: 'correct', label: '「看到大家都在慶祝，讓一個人待著的您感到好寂寞，甚至覺得自己不重要對嗎？謝謝您願意把這份難過告訴我，今晚我在這裡陪著您。」', isCorrect: true, gift: '💌 溫暖同理錦囊：讓求助者知道他的寂寞被聽見了，他並不孤單。' },
+                    { id: 'w1', label: '「別想太多！您也可以自己出去吃大餐啊，一個人也可以過得很好棒的！」', isCorrect: false, feedback: '這個回應雖然想鼓舞對方，但容易讓求助者覺得自己的寂寞被否定了。試試看更專注於陪伴與認可情緒的回應。' },
+                    { id: 'w2', label: '「大家都只是在打卡假裝快樂啦，沒什麼好羨慕的。」', isCorrect: false, feedback: '試著不要過度評論他人，而是專注於眼前求助者此刻內心的寂寞與無助感。' }
+                ]
+            },
+            {
+                id: 'B',
+                giftIcon: '🎀',
+                title: '禮物盒 B：高壓下的崩潰邊緣',
+                story: '「年終工作堆得像山一樣，家裡又有一堆事要處理，我已經連續好幾天失眠了。我覺得我的心像一根拉得太緊的橡皮筋，隨時都要斷掉了……」',
+                emotions: [
+                    { id: 'correct', label: '身心俱疲、壓迫感、瀕臨崩潰', hint: '正確！清楚捕捉到對方身心不堪重負的警訊。' },
+                    { id: 'w1', label: '討厭聖誕節、悲傷悲觀', hint: '求助者主要是在表達壓力過大導致的疲憊與崩潰感。' },
+                    { id: 'w2', label: '冷漠、不在乎任何事', hint: '求助者其實非常焦慮且感到被壓力壓得喘不過氣。' }
+                ],
+                responses: [
+                    { id: 'correct', label: '「聽起來好多壓力同時壓在您身上，讓您身心都已經到了極限。這段時間真的辛苦您了，我們一步一步慢慢來，先在這裡好好的喘一口氣。」', isCorrect: true, gift: '☕ 喘息安放錦囊：協助求助者放慢步調，承認疲憊並接納自己。' },
+                    { id: 'w1', label: '「時間管理很重要哦！要不要試著列個清單一件一件處理掉？」', isCorrect: false, feedback: '給予建議前，求助者最需要的是有人能聽懂他已經快要撐不下去了的疲憊。' },
+                    { id: 'w2', label: '「大家都年底很忙啦，撐過這幾天放假就好了！」', isCorrect: false, feedback: '這樣的回答可能會讓對方覺得自己的壓力被輕忽了。' }
+                ]
+            },
+            {
+                id: 'C',
+                giftIcon: '📦',
+                title: '禮物盒 C：強顏歡笑與社交疏離',
+                story: '「今天在公司聖誕派對上我笑得很開心，還拿到了交換禮物。但一回到家鎖上門，眼淚就止不住地掉下來……我覺得自己好假，每天都要戴著微笑面具，真的好累。」',
+                emotions: [
+                    { id: 'correct', label: '情緒壓抑、內外割裂感、面具疲憊', hint: '正確！精準讀懂了求助者在人前強顏歡笑、背後無奈落淚的落差。' },
+                    { id: 'w1', label: '對禮物不滿意、抱怨公司', hint: '求助者表達的是撐起笑容的疲累與內心的空虛，而非禮物本身。' },
+                    { id: 'w2', label: '單純的性格內向、害害羞', hint: '求助者是因為過度迎合外界社交而感到極度情緒耗竭。' }
+                ],
+                responses: [
+                    { id: 'correct', label: '「要在大家面前一直維持笑容、假裝沒事，真的耗費了您好多心力。在我這裡您不用再戴著面具，可以放心地卸下武裝，哭出來也完全沒關係。」', isCorrect: true, gift: '🎭 卸下面具錦囊：提供安全無評價的空間，讓對方安心展現真實脆弱。' },
+                    { id: 'w1', label: '「大家都是這樣生活的呀，成年人的世界就是需要適度偽裝嘛。」', isCorrect: false, feedback: '雖然這很普遍，但這時候求助者更需要的是對他「好累」這份感受的理解。' },
+                    { id: 'w2', label: '「下次如果不開心就不要去參加派對了嘛！」', isCorrect: false, feedback: '試著專注於他此刻掉眼淚的委屈與疲憊，給予溫柔的包容。' }
+                ]
+            }
+        ];
+
+        let currentMode2Index = 0;
+        let selectedEmotion = null;
+        let unlockedGifts = [];
+
+        function initMode2UI() {
+            currentMode2Index = 0;
+            selectedEmotion = null;
+            unlockedGifts = [];
+            renderMode2Stage();
+        }
+
+        function renderMode2Stage() {
+            const container = document.getElementById('mode2-active-box');
+            if (!container) return;
+
+            // Update Progress tokens
+            for (let i = 0; i < 3; i++) {
+                const token = document.getElementById(`token-${i}`);
+                if (token) {
+                    if (i < currentMode2Index) {
+                        token.className = "px-3 py-1 bg-rose-600 border border-rose-400 text-white rounded-lg text-xs font-bold shadow";
+                        token.innerText = `禮物 ${String.fromCharCode(65+i)} ✓`;
+                    } else if (i === currentMode2Index) {
+                        token.className = "px-3 py-1 bg-amber-500 border border-amber-300 text-slate-950 rounded-lg text-xs font-bold animate-pulse";
+                        token.innerText = `禮物 ${String.fromCharCode(65+i)} (進行中)`;
+                    } else {
+                        token.className = "px-3 py-1 bg-slate-800 border border-slate-700 text-slate-400 rounded-lg text-xs font-bold";
+                        token.innerText = `禮物 ${String.fromCharCode(65+i)}`;
+                    }
+                }
+            }
+
+            const currentCase = mode2Cases[currentMode2Index];
+
+            container.innerHTML = `
+                <div class="flex items-center gap-3 border-b border-rose-500/20 pb-3">
+                    <span class="text-3xl">${currentCase.giftIcon}</span>
+                    <div>
+                        <h3 class="font-bold text-lg text-rose-300">${currentCase.title}</h3>
+                        <p class="text-xs text-slate-400">步驟 1：請先辨識求助者的主要情緒</p>
+                    </div>
+                </div>
+
+                <!-- Story dialogue -->
+                <div class="bg-slate-950/70 p-4 rounded-2xl border border-slate-800 relative">
+                    <i class="fa-solid fa-quote-left text-rose-500/30 text-2xl absolute top-2 left-3"></i>
+                    <p class="text-sm text-slate-200 leading-relaxed px-5 py-1 italic">
+                        ${currentCase.story}
+                    </p>
+                </div>
+
+                <!-- Step 1: Emotion Selection -->
+                <div class="space-y-3">
+                    <label class="text-xs text-amber-300 font-bold block">
+                        【步驟 1】請選擇最貼切的情緒標籤：
+                    </label>
+                    <div class="grid sm:grid-cols-3 gap-3" id="emotion-btns">
+                        ${currentCase.emotions.map(e => `
+                            <button onclick="selectEmotion('${e.id}', '${e.hint}')" id="emo-btn-${e.id}" class="p-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl text-xs text-slate-200 text-left transition flex flex-col justify-between">
+                                <span class="font-bold mb-1">${e.label}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                    <p id="emotion-hint" class="text-xs text-amber-300/90 hidden bg-amber-500/10 p-2.5 rounded-xl border border-amber-500/30 animate-fade-in"></p>
+                </div>
+
+                <!-- Step 2: Response Selection (Hidden initially) -->
+                <div id="step2-container" class="space-y-3 hidden pt-3 border-t border-slate-800">
+                    <label class="text-xs text-rose-300 font-bold block">
+                        【步驟 2】請選擇最能給予同理與陪伴的回應：
+                    </label>
+                    <div class="space-y-2.5">
+                        ${currentCase.responses.map(r => `
+                            <button onclick="checkResponse(${r.isCorrect}, '${r.gift || ''}', '${r.feedback || ''}')" class="w-full p-3.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl text-xs text-slate-200 text-left transition leading-relaxed hover:border-rose-400/50">
+                                ${r.label}
+                            </button>
+                        `).join('')}
+                    </div>
+                    <p id="response-feedback" class="text-xs text-rose-300 hidden bg-rose-500/10 p-3 rounded-xl border border-rose-500/30 animate-fade-in"></p>
+                </div>
+            `;
+        }
+
+        function selectEmotion(id, hint) {
+            selectedEmotion = id;
+            const currentCase = mode2Cases[currentMode2Index];
+
+            currentCase.emotions.forEach(e => {
+                const btn = document.getElementById(`emo-btn-${e.id}`);
+                if (btn) {
+                    if (e.id === id) {
+                        btn.className = "p-3 bg-rose-900/60 border-2 border-rose-500 rounded-xl text-xs text-white text-left font-bold shadow";
+                    } else {
+                        btn.className = "p-3 bg-slate-800 opacity-50 border border-slate-700 rounded-xl text-xs text-slate-400 text-left";
+                    }
+                }
+            });
+
+            const hintEl = document.getElementById('emotion-hint');
+            if (hintEl) {
+                hintEl.innerText = hint;
+                hintEl.classList.remove('hidden');
+            }
+
+            // Show Step 2
+            const step2 = document.getElementById('step2-container');
+            if (step2) {
+                step2.classList.remove('hidden');
+            }
+        }
+
+        function checkResponse(isCorrect, gift, feedback) {
+            const feedbackEl = document.getElementById('response-feedback');
+            if (!feedbackEl) return;
+
+            if (isCorrect) {
+                unlockedGifts.push(gift);
+                feedbackEl.className = "text-xs text-emerald-300 bg-emerald-500/10 p-3 rounded-xl border border-emerald-500/30 animate-fade-in";
+                feedbackEl.innerText = "❤️ 非常棒！這是一個極具同理深度與溫暖的回應。解鎖愛心禮物！";
+
+                setTimeout(() => {
+                    currentMode2Index++;
+                    if (currentMode2Index < mode2Cases.length) {
+                        renderMode2Stage();
+                    } else {
+                        showCenterGiftModal();
+                    }
+                }, 1200);
+            } else {
+                feedbackEl.className = "text-xs text-rose-300 bg-rose-500/10 p-3 rounded-xl border border-rose-500/30 animate-fade-in";
+                feedbackEl.innerText = "💡 " + feedback;
+                feedbackEl.classList.remove('hidden');
+            }
+        }
+
+        function showCenterGiftModal() {
+            const modal = document.getElementById('center-gift-modal');
+            const summaryContainer = document.getElementById('unlocked-gifts-summary');
+            if (!modal || !summaryContainer) return;
+
+            summaryContainer.innerHTML = unlockedGifts.map(g => `
+                <div class="bg-slate-900 p-2.5 rounded-xl border border-rose-500/20 text-xs text-rose-200">
+                    ${g}
+                </div>
+            `).join('');
+
+            modal.classList.remove('hidden');
+        }
+
+        // --- GAME 3: 點亮聖誕夜小鎮 ---
+        const mode3Buildings = [
+            { id: 1, name: '1號小屋：活動室 🎨', icon: '🎨', litMsg: '', isLit: false },
+            { id: 2, name: '2號小屋：面談室 🏠', icon: '🏠', litMsg: '', isLit: false },
+            { id: 3, name: '中央路燈：熱線房 📞', icon: '📞', litMsg: '', isLit: false },
+            { id: 4, name: '4號小屋：聖誕街燈 🕯️', icon: '🕯️', litMsg: '', isLit: false },
+            { id: 5, name: '聖誕鐘樓：休息房 🛋️', icon: '🛋️', litMsg: '', isLit: false }
+        ];
+
+        let activeBuildingId = null;
+
+        const presetLightMessages = [
+            "感謝每位值勤夥伴的耐心聆聽！",
+            "辛苦了！有您們真好，聖誕快樂！",
+            "願我們的陪伴成為冬夜裡溫暖的光。",
+            "照顧好求助者前，也請先照顧好自己。"
+        ];
+
+        function initMode3UI() {
+            renderTownGrid();
+            renderPresetMessages();
+        }
+
+        function renderTownGrid() {
+            const grid = document.getElementById('town-buildings-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            mode3Buildings.forEach(b => {
+                const card = document.createElement('div');
+                card.className = `p-4 rounded-2xl border transition flex flex-col items-center justify-between min-h-[140px] cursor-pointer ${
+                    b.isLit 
+                    ? 'bg-amber-950/60 border-amber-400 lit shadow-lg shadow-amber-500/20' 
+                    : 'bg-slate-900/80 border-slate-800 hover:border-indigo-500/50'
+                }`;
+                card.onclick = () => openLightModal(b.id);
+
+                card.innerHTML = `
+                    <span class="text-4xl ${b.isLit ? 'animate-bounce' : ''}">${b.icon}</span>
+                    <div class="text-center">
+                        <h4 class="font-bold text-xs ${b.isLit ? 'text-amber-300' : 'text-slate-300'}">${b.name}</h4>
+                        <span class="text-[10px] ${b.isLit ? 'text-amber-400/90 font-bold' : 'text-slate-500'}">
+                            ${b.isLit ? '✨ 已點亮' : '點擊點亮'}
+                        </span>
+                    </div>
+                    ${b.isLit ? `<p class="text-[10px] text-amber-200/80 italic mt-1 line-clamp-1">"${b.litMsg}"</p>` : ''}
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function renderPresetMessages() {
+            const container = document.getElementById('preset-lights-container');
+            if (!container) return;
+            container.innerHTML = '';
+
+            presetLightMessages.forEach(msg => {
+                const tag = document.createElement('button');
+                tag.className = "text-[11px] bg-slate-800 hover:bg-indigo-900 text-indigo-200 px-2.5 py-1 rounded-lg border border-indigo-500/30 transition text-left";
+                tag.onclick = () => {
+                    const input = document.getElementById('custom-light-msg');
+                    if (input) input.value = msg;
+                };
+                tag.innerText = msg;
+                container.appendChild(tag);
+            });
+        }
+
+        function openLightModal(id) {
+            activeBuildingId = id;
+            const b = mode3Buildings.find(item => item.id === id);
+            if (!b) return;
+
+            const modal = document.getElementById('light-modal');
+            const iconEl = document.getElementById('modal-building-icon');
+            const nameEl = document.getElementById('modal-building-name');
+            const msgInput = document.getElementById('custom-light-msg');
+
+            if (iconEl) iconEl.innerText = b.icon;
+            if (nameEl) nameEl.innerText = b.name;
+            if (msgInput) msgInput.value = b.litMsg || '';
+
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function confirmLightUp() {
+            const msgInput = document.getElementById('custom-light-msg');
+            const msg = msgInput ? msgInput.value.trim() : '';
+
+            if (!msg) {
+                alert('請輸入或選擇一句暖心留言來點亮燈火！');
+                return;
+            }
+
+            const b = mode3Buildings.find(item => item.id === activeBuildingId);
+            if (b) {
+                b.isLit = true;
+                b.litMsg = msg;
+            }
+
+            closeModal('light-modal');
+            renderTownGrid();
+
+            // Check if all buildings are lit up
+            const allLit = mode3Buildings.every(item => item.isLit);
+            if (allLit) {
+                setTimeout(() => {
+                    const banner = document.getElementById('town-all-lit-banner');
+                    if (banner) banner.classList.remove('hidden');
+                }, 400);
+            }
+        }
+
+        function closeTownCelebration() {
+            const banner = document.getElementById('town-all-lit-banner');
+            if (banner) banner.classList.add('hidden');
+        }
+
+        // --- WALL: 暖心留言牆 ---
+        let wallMessages = [
+            { id: 1, author: '102號義工小晴', content: '謝謝團隊每位熱線夥伴！今年大家都辛苦了，聖誕快樂，願我們都平安喜樂❤️', time: '10分鐘前' },
+            { id: 2, author: '夜班義工阿健', content: '給今晚值勤的您：深夜的電話聲雖然沉重，但您溫柔的聲音是最好的解答。加油！', time: '25分鐘前' }
+        ];
+
+        let isAdminLoggedIn = false;
+
+        function toggleAdminPanel() {
+            if (isAdminLoggedIn) return;
+            const drawer = document.getElementById('admin-login-drawer');
+            if (drawer) {
+                if (drawer.classList.contains('hidden')) {
+                    drawer.classList.remove('hidden');
+                    const input = document.getElementById('admin-pwd-input');
+                    if (input) {
+                        input.value = '';
+                        input.focus();
+                    }
+                } else {
+                    drawer.classList.add('hidden');
+                }
+            }
+        }
+
+        function verifyAdminPassword() {
+            const input = document.getElementById('admin-pwd-input');
+            const pwd = input ? input.value : '';
+
+            if (pwd === 'admin123') {
+                isAdminLoggedIn = true;
+                const drawer = document.getElementById('admin-login-drawer');
+                const btn = document.getElementById('admin-mode-btn');
+                const bar = document.getElementById('admin-controls-bar');
+
+                if (drawer) drawer.classList.add('hidden');
+                if (btn) {
+                    btn.innerHTML = `<i class="fa-solid fa-shield text-emerald-400 mr-1"></i> 管理員已登入`;
+                    btn.className = "text-xs bg-emerald-950/60 text-emerald-300 border border-emerald-500/40 px-3 py-1.5 rounded-lg";
+                }
+                if (bar) bar.classList.remove('hidden');
+                renderWallCards();
+            } else {
+                alert('密碼錯誤！請輸入正確的管理員密碼。');
+            }
+        }
+
+        function logoutAdmin() {
+            isAdminLoggedIn = false;
+            const btn = document.getElementById('admin-mode-btn');
+            const bar = document.getElementById('admin-controls-bar');
+            if (btn) {
+                btn.innerHTML = `<i class="fa-solid fa-shield-halved mr-1"></i> 管理員登入`;
+                btn.className = "text-xs bg-purple-900/40 text-purple-300 border border-purple-500/40 px-3 py-1.5 rounded-lg hover:bg-purple-800/60 transition";
+            }
+            if (bar) bar.classList.add('hidden');
+            renderWallCards();
+        }
+
+        function deleteWallMessage(id) {
+            if (!isAdminLoggedIn) return;
+            wallMessages = wallMessages.filter(m => m.id !== id);
+            renderWallCards();
+        }
+
+        function clearAllMessages() {
+            if (!isAdminLoggedIn) return;
+            wallMessages = [];
+            renderWallCards();
+        }
+
+        function initWallUI() {
+            renderWallCards();
+        }
+
+        function renderWallCards() {
+            const grid = document.getElementById('wall-cards-grid');
+            if (!grid) return;
+            grid.innerHTML = '';
+
+            if (wallMessages.length === 0) {
+                grid.innerHTML = `<div class="col-span-2 text-center py-8 text-xs text-slate-500">目前尚無留言。</div>`;
+                return;
+            }
+
+            wallMessages.forEach(m => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-900/80 p-4 rounded-2xl border border-purple-500/20 space-y-2 relative shadow-lg";
+                card.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-xs text-purple-300 flex items-center gap-1.5">
+                            <i class="fa-solid fa-user-circle"></i> ${m.author}
+                        </span>
+                        <div class="flex items-center gap-2">
+                            <span class="text-[10px] text-slate-500">${m.time}</span>
+                            ${isAdminLoggedIn ? `<button onclick="deleteWallMessage(${m.id})" class="text-[10px] bg-rose-900/50 hover:bg-rose-800 text-rose-200 px-2 py-0.5 rounded border border-rose-500/30 transition">刪除 🗑️</button>` : ''}
+                        </div>
+                    </div>
+                    <p class="text-xs text-slate-200 leading-relaxed">
+                        ${m.content}
+                    </p>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function postWallMessage() {
+            const authorInput = document.getElementById('wall-author-input');
+            const msgInput = document.getElementById('wall-msg-input');
+
+            const author = authorInput ? authorInput.value.trim() : '';
+            const content = msgInput ? msgInput.value.trim() : '';
+
+            if (!author || !content) {
+                alert('請填寫暱稱與留言內容！');
+                return;
+            }
+
+            wallMessages.unshift({
+                id: Date.now(),
+                author: author,
+                content: content,
+                time: '剛剛'
+            });
+
+            if (authorInput) authorInput.value = '';
+            if (msgInput) msgInput.value = '';
+
+            renderWallCards();
+        }
+
+        // Global Window Load Event
+        window.onload = function() {
+            initSnowEffect();
+            initMode1UI();
+            initMode2UI();
+            initMode3UI();
+            initWallUI();
+        };
+    </script>
+</body>
+</html>
